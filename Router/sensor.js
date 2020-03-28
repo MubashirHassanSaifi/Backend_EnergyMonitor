@@ -48,19 +48,19 @@ router.route('/add').post(async (req,res)=>{
             return res.status(400).send(error.detail[0].message);
 
   //get values from user
- const userid=req.body.userid;
- const Va=req.body.Va;
- const Vb=req.body.Vb;
- const Vc=req.body.Vc;
- const Ia=req.body.Ia;
- const Ib=req.body.Ib;
- const Ic=req.body.Ic;
- const Pf=req.body.Pf;
- const A=req.body.A;
- const B=req.body.B;
- const PA=req.body.PA;
- const PR=req.body.PR;
- const U=req.body.U;
+     const userid=req.body.userid;
+     const Va=req.body.voltage.Va;
+     const Vb=req.body.voltage.Vb;
+     const Vc=req.body.voltage.Vc;
+     const Ia=req.body.current.Ia;
+     const Ib=req.body.current.Ib;
+     const Ic=req.body.current.Ic;
+     const Pf=req.body.power.Pf;
+     const A=req.body.power.A;
+     const B=req.body.power.B;
+     const PA=req.body.power.PA;
+     const PR=req.body.power.PR;
+     const U=req.body.power.U;
 
 const sensor=new EnergySensor({
     userid:userid,
@@ -102,19 +102,19 @@ router.route('/delete/:id').delete(async(req,res)=>{
 router.route('/update/:id').post( async(req,res)=>{
       const sensorid=req.params.id;
       //const userid=req.body.userid;
-      const Va=req.body.Va;
-      const Vb=req.body.Vb;
-      const Vc=req.body.Vc;
-      const Ia=req.body.Ia;
-      const Ib=req.body.Ib;
-      const Ic=req.body.Ic;
-      const Pf=req.body.Pf;
-      const A=req.body.A;
-      const B=req.body.B;
-      const PA=req.body.PA;
-      const PR=req.body.PR;
-      const U=req.body.U;
-
+      const Va=req.body.voltage.Va;
+      const Vb=req.body.voltage.Vb;
+      const Vc=req.body.voltage.Vc;
+      const Ia=req.body.current.Ia;
+      const Ib=req.body.current.Ib;
+      const Ic=req.body.current.Ic;
+      const Pf=req.body.power.Pf;
+      const A=req.body.power.A;
+      const B=req.body.power.B;
+      const PA=req.body.power.PA;
+      const PR=req.body.power.PR;
+      const U=req.body.power.U;
+      console.log(`Va = ${Va}`)
       //set local time and date
       let date=new Date();
       let newDate =date.toDateString();
