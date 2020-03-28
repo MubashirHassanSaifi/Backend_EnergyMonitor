@@ -7,6 +7,7 @@ const logsRouter=require('./Router/logs');
 const thresholeRouter=require('./Router/threshole');
 const http=require('http');
 const socketio=require('socket.io');
+const axios=require('axios');
 
 //create server object
 const app =express();
@@ -22,49 +23,35 @@ io.on('connection',(socket)=>{
    });
    
    socket.emit('message','you are connected');
-   //  Va event
-   socket.on("Va",(bin)=>{
-  console.log(bin)
-   });
-   // Vb event
-   socket.on("Vb",(bin)=>{
-       console.log(bin)
-   });
-   // Vc event
-   socket.on("Vc",(bin)=>{
-    console.log(bin)
-});
-// Ia event
-socket.on("Ia",(bin)=>{
-    console.log(bin)
-});
-// Ib event
-socket.on("Ib",(bin)=>{
-    console.log(bin)
-});
-// Ic event
-socket.on("Ic",(bin)=>{
-    console.log(bin)
-});
-// Pf event
-socket.on("Pf",(bin)=>{
-    console.log(bin)
-});
-// PA event
-socket.on("PA",(bin)=>{
-    console.log(bin)
-});
-// PR event
-socket.on("PR",(bin)=>{
-    console.log(bin)
-});
-// U event
-socket.on("U",(bin)=>{
-    console.log(bin)
-});
+   
+   socket.on("Values",async(data)=>{
+   
+    const config={
+       headers:{
+           'content-type':'application/json'
+       }
+   }
+    
+    // update data
+   const id =data.sensor_id;
+    
+   axios.post(`http://localhost:5000/energysensor/update/${id}`,config,data);
 
 
-});
+       console.log(`Va = ${data.volage.Va}`);
+       console.log(`Vb = ${data.volage.Vb}`);
+       console.log(`Vc= ${data.volage.Vc}`);
+       console.log(`Ia = ${data.current.Ia}`);
+       console.log(`Ib = ${data.current.Ib}`);
+       console.log(`Ic = ${data.current.Ic}`);
+       console.log(`Pf = ${data.power.Pf}`);
+       console.log(`PA = ${data.power.PA}`);
+       console.log(`PR = ${data.power.PR}`);
+       console.log(`U = ${data.power.U}`);
+   })
+   
+   
+   });
 
 
 app.use(express.json());
