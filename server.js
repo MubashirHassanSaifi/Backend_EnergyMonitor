@@ -35,7 +35,7 @@ io.on('connection',(socket)=>{
     // update data
    const id =data.sensor_id;
     
-   axios.post(`http://localhost:5000/energysensor/update/${id}`,config,data);
+   axios.post(`http://localhost:5000/energysensor/update/${id}`,data,config);
 
 
        console.log(`Va = ${data.volage.Va}`);
