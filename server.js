@@ -11,7 +11,21 @@ const axios=require('axios');
 
 //create server object
 const app =express();
-const server =http.createServer(app).listen(8000);
+app.use(express.json());
+app.use(cors());
+
+//database connectivity
+const connectionString=process.env.CONNECTION_STRING;
+mongoose.connect(connectionString,{useCreateIndex:true,useNewUrlParser:true,useUnifiedTopology:true});
+const connection=mongoose.connection;
+connection.once('open',()=>{console.log(`MongoDB connection is established`)});
+
+
+
+//port
+const port = process.env.PORT||5000;
+const server = app.listen(port , console.log(`server is running on port ${port}`));
+
 const io =socketio(server);
 
 io.on('connection',(socket)=>{
@@ -54,20 +68,9 @@ io.on('connection',(socket)=>{
    });
 
 
-app.use(express.json());
-app.use(cors());
+
 app.use('/energysensor',sensorRouter);
 app.use('/logs',logsRouter);
 app.use('/threshole',thresholeRouter);
 
-//database connectivity
-const connectionString=process.env.CONNECTION_STRING;
-mongoose.connect(connectionString,{useCreateIndex:true,useNewUrlParser:true,useUnifiedTopology:true});
-const connection=mongoose.connection;
-connection.once('open',()=>{console.log(`MongoDB connection is established`)});
-
-
-
-//port
-const port = process.env.PORT||5001;
-app.listen(port , console.log(`server is running on port ${port}`));
+module.exports = app;
